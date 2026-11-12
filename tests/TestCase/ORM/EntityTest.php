@@ -1885,4 +1885,44 @@ class EntityTest extends TestCase
 
         $this->assertFalse($entity->hasErrors());
     }
+
+    public function testSetVisibleShowsHiddenField(): void
+    {
+        $entity = new Entity([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'phone' => '123456',
+        ]);
+
+        $entity->setHidden(['email', 'phone']);
+        $entity->setVisible('email');
+
+        $this->assertSame(['phone'], $entity->getHidden());
+
+        $this->assertSame([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ], $entity->toArray());
+    }
+
+    public function testSetVisibleCanHideFields(): void
+    {
+        $entity = new Entity([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'phone' => '123456',
+        ]);
+
+        $entity->setHidden(['phone']);
+        $entity->setVisible('email', false);
+
+        $this->assertSame(
+            ['phone', 'email'],
+            $entity->getHidden(),
+        );
+
+        $this->assertSame([
+            'name' => 'Test User',
+        ], $entity->toArray());
+    }
 }

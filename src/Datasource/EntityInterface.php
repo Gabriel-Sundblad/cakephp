@@ -41,6 +41,15 @@ interface EntityInterface extends ArrayAccess, JsonSerializable, Stringable
     public function setHidden(array $fields, bool $merge = false);
 
     /**
+     * Changes the visibility of one or more fields.
+     *
+     * @param array<string>|string $fields Fields to update.
+     * @param bool $visible Whether the fields should be visible.
+     * @return $this
+     */
+    public function setVisible(array|string $fields, bool $visible = true);
+
+    /**
      * Gets the hidden fields.
      *
      * @return array<string>

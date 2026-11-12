@@ -637,6 +637,28 @@ trait EntityTrait
     }
 
     /**
+     * Changes the visibility of one or more fields.
+     *
+     * @param array<string>|string $fields Fields to update.
+     * @param bool $visible Whether the fields should be visible.
+     * @return $this
+     */
+    public function setVisible(array|string $fields, bool $visible = true)
+    {
+        $fields = (array)$fields;
+
+        if ($visible) {
+            $this->_hidden = array_values(
+                array_diff($this->_hidden, $fields),
+            );
+        } else {
+            $this->setHidden($fields, true);
+        }
+
+        return $this;
+    }
+
+    /**
      * Gets the hidden fields.
      *
      * @return array<string>
